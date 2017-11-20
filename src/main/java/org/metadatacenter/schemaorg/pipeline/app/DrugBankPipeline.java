@@ -1,12 +1,11 @@
 package org.metadatacenter.schemaorg.pipeline.app;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.metadatacenter.schemaorg.pipeline.api.Pipeline;
@@ -19,28 +18,39 @@ import org.metadatacenter.schemaorg.pipeline.transform.RdfToSchema;
 
 public class DrugBankPipeline {
 
+  /*
+   * Example use:
+   * $ java DrugBankPipeline "src/test/resource/clinicaltrials.xml"
+   */
   public static void main(String[] args) {
 
-    String inputFile = args[0];
+    String input = args[0];
 
     TranslatorHandler  handler = new SparqlConstructTranslatorHandler();
     String query = MapNodeTranslator.translate(handler, DRUGBANK_MAPPING);
 
     SparqlEndpointClient bio2rdf = SparqlEndpointClient.BIO2RDF;
 
-    for (String graphIri : getInputList(inputFile)) {
+    List<String> drugIdentifiers = getIdentifiersFromInput(input);
+    for (String drugIdentifier : drugIdentifiers) {
       try {
-        System.out.println("Processing " + graphIri);
+        System.out.println("Processing " + drugIdentifier);
         String output = Pipeline.create()
-            .pipe(s -> bio2rdf.evaluatePreparedQuery(s, graphIri))
+            .pipe(s -> bio2rdf.evaluatePreparedQuery(s, drugIdentifier))
             .pipe(RdfToSchema::transform)
             .pipe(SchemaToHtml::transform)
             .run(query);
-        writeDocument(toHtmlFile(graphIri), output);
+        writeDocument(toHtmlFile(drugIdentifier), output);
       } catch (Exception e) {
-        System.err.println("Failed " + graphIri);
+        System.err.println("Failed " + drugIdentifier);
       }
     }
+  }
+
+  private static List<String> getIdentifiersFromInput(String input) {
+    return Arrays.stream(input.split(","))
+        .map(String::trim)
+        .collect(Collectors.toList());
   }
 
   private static void writeDocument(String path, String content) {
@@ -55,16 +65,6 @@ public class DrugBankPipeline {
     try {
       return URLEncoder.encode(graphIri, "UTF-8") + ".html";
     } catch (UnsupportedEncodingException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  private static List<String> getInputList(String path) {
-    List<String> list = new ArrayList<>();
-    try (BufferedReader br = Files.newBufferedReader(Paths.get(path))) {
-      list = br.lines().collect(Collectors.toList());
-      return list;
-    } catch (IOException e) {
       throw new RuntimeException(e);
     }
   }

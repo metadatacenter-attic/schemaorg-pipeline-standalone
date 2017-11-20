@@ -1,6 +1,5 @@
 package org.metadatacenter.schemaorg.pipeline.app;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.metadatacenter.schemaorg.pipeline.api.Pipeline;
@@ -26,9 +25,13 @@ import org.metadatacenter.schemaorg.pipeline.transform.XmlToSchema;
 
 public class ClinicalTrialPipeline {
 
+  /*
+   * Example use:
+   * $ java ClinicalTrialPipeline "http://bio2rdf.org/drugbank:DB00123"
+   */
   public static void main(String[] args) {
     
-    String inputFile = args[0];
+    String input = args[0];
     
     String stylesheet = MapNodeTranslator.translate(new XsltTranslatorHandler(), CLINICAL_TRIALS_MAPPING);
     
@@ -38,8 +41,10 @@ public class ClinicalTrialPipeline {
     TermLookup dbpediaLookup = new DBpediaLookup();
     IdExpander identifiersExpander = new IdentifiersExpander();
     
-    for (String xmlPath : getInputList(inputFile)) {
-      System.out.println("Processing " + xmlPath);
+    List<String> fileLocations = getFileLocationsFromInput(input);
+    for (String fileLocation : fileLocations) {
+      fileLocation = fileLocation.trim();
+      System.out.println("Processing " + fileLocation);
       String output = Pipeline.create()
           .pipe(transformer::transform)
           .pipe(XmlToSchema::transform)
@@ -47,9 +52,15 @@ public class ClinicalTrialPipeline {
           .pipe(s -> SchemaEnrichment.fillOutIdFromObjectCodeValue(s, bioPortalRecommender))
           .pipe(s -> SchemaEnrichment.fillOutIdFromObjectName(s, dbpediaLookup))
           .pipe(SchemaToHtml::transform)
-          .run(readDocument(xmlPath));
-      writeDocument(toHtmlFile("output", xmlPath), output);
+          .run(readDocument(fileLocation));
+      writeDocument(toHtmlFile("output", fileLocation), output);
     }
+  }
+
+  private static List<String> getFileLocationsFromInput(String input) {
+    return Arrays.stream(input.split(","))
+        .map(String::trim)
+        .collect(Collectors.toList());
   }
 
   private static String readDocument(String path) {
@@ -69,16 +80,6 @@ public class ClinicalTrialPipeline {
   private static void writeDocument(String path, String content) {
     try {
       Files.write(Paths.get(path), content.getBytes());
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  private static List<String> getInputList(String path) {
-    List<String> list = new ArrayList<>();
-    try (BufferedReader br = Files.newBufferedReader(Paths.get(path))) {
-      list = br.lines().collect(Collectors.toList());
-      return list;
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
