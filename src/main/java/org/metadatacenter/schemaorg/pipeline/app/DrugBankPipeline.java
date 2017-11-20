@@ -23,7 +23,7 @@ public class DrugBankPipeline {
 
     String inputFile = args[0];
 
-    TranslatorHandler handler = createTranslatorHandler();
+    TranslatorHandler  handler = new SparqlConstructTranslatorHandler();
     String query = MapNodeTranslator.translate(handler, DRUGBANK_MAPPING);
 
     SparqlEndpointClient bio2rdf = SparqlEndpointClient.BIO2RDF;
@@ -41,16 +41,6 @@ public class DrugBankPipeline {
         System.err.println("Failed " + graphIri);
       }
     }
-  }
-
-  private static SparqlConstructTranslatorHandler createTranslatorHandler() {
-    SparqlConstructTranslatorHandler handler = new SparqlConstructTranslatorHandler();
-    handler.addPrefix("schema", "http://schema.org/");
-    handler.addPrefix("rdf", "http://www.w3.org/1999/02/22-rdf-syntax-ns#");
-    handler.addPrefix("db", "http://bio2rdf.org/drugbank_vocabulary:");
-    handler.addPrefix("bio2rdf", "http://bio2rdf.org/bio2rdf_vocabulary:");
-    handler.setInstanceType("db:Drug");
-    return handler;
   }
 
   private static void writeDocument(String path, String content) {
@@ -80,7 +70,11 @@ public class DrugBankPipeline {
   }
 
   private static final String DRUGBANK_MAPPING =
-      "@type:                Drug\n" + 
+      "@prefix:              ('schema', 'http://schema.org/')\n" + 
+      "@prefix:              ('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')\n" + 
+      "@prefix:              ('db', 'http://bio2rdf.org/drugbank_vocabulary:')\n" + 
+      "@prefix:              ('bio2rdf', 'http://bio2rdf.org/bio2rdf_vocabulary:')\n" + 
+      "@type:                ('Drug', 'db:Drug')\n" + 
       "name:                 /dcterms:title\n" + 
       "description:          /dcterms:description\n" + 
       "identifier:           /dcterms:identifier\n" + 
