@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.metadatacenter.schemaorg.pipeline.api.Pipeline;
+import org.metadatacenter.schemaorg.pipeline.embed.SchemaToHtml;
+import org.metadatacenter.schemaorg.pipeline.extract.SparqlEndpointClient;
 import org.metadatacenter.schemaorg.pipeline.mapping.MapNodeTranslator;
 import org.metadatacenter.schemaorg.pipeline.mapping.TranslatorHandler;
 import org.metadatacenter.schemaorg.pipeline.mapping.translator.SparqlConstructTranslatorHandler;
-import org.metadatacenter.schemaorg.pipeline.release.SchemaToHtml;
 import org.metadatacenter.schemaorg.pipeline.transform.RdfToSchema;
-import org.metadatacenter.schemaorg.pipeline.transform.datasource.SparqlEndpointClient;
 
 public class DrugBankPipeline {
 

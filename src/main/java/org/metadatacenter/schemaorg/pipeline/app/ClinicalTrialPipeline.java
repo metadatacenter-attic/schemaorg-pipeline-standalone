@@ -12,17 +12,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.metadatacenter.schemaorg.pipeline.api.Pipeline;
+import org.metadatacenter.schemaorg.pipeline.embed.SchemaToHtml;
 import org.metadatacenter.schemaorg.pipeline.experimental.BioPortalRecommender;
 import org.metadatacenter.schemaorg.pipeline.experimental.DBpediaLookup;
 import org.metadatacenter.schemaorg.pipeline.experimental.IdExpander;
 import org.metadatacenter.schemaorg.pipeline.experimental.IdentifiersExpander;
 import org.metadatacenter.schemaorg.pipeline.experimental.SchemaEnrichment;
 import org.metadatacenter.schemaorg.pipeline.experimental.TermLookup;
+import org.metadatacenter.schemaorg.pipeline.extract.XsltTransformer;
 import org.metadatacenter.schemaorg.pipeline.mapping.MapNodeTranslator;
 import org.metadatacenter.schemaorg.pipeline.mapping.translator.XsltTranslatorHandler;
-import org.metadatacenter.schemaorg.pipeline.release.SchemaToHtml;
 import org.metadatacenter.schemaorg.pipeline.transform.XmlToSchema;
-import org.metadatacenter.schemaorg.pipeline.transform.datasource.XsltTransformer;
 
 public class ClinicalTrialPipeline {
 
