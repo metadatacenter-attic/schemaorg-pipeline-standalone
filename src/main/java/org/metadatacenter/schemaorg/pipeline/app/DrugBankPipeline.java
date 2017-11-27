@@ -20,7 +20,7 @@ public class DrugBankPipeline {
 
   /*
    * Example use:
-   * $ java DrugBankPipeline "src/test/resource/clinicaltrials.xml"
+   * $ java DrugBankPipeline "http://bio2rdf.org/drugbank:DB00001"
    */
   public static void main(String[] args) {
 
