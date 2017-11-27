@@ -1,13 +1,8 @@
 package org.metadatacenter.schemaorg.pipeline.app;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.metadatacenter.schemaorg.pipeline.Pipeline;
 import org.metadatacenter.schemaorg.pipeline.operation.embed.SchemaToHtml;
 import org.metadatacenter.schemaorg.pipeline.operation.extract.SparqlEndpointClient;
@@ -24,47 +19,31 @@ public class DrugBankPipeline {
    */
   public static void main(String[] args) {
 
-    String input = args[0];
+    String drugIdentifier = args[0];
 
     TranslatorHandler  handler = new SparqlConstructTranslatorHandler();
     String query = MapNodeTranslator.translate(handler, DRUGBANK_MAPPING);
 
     SparqlEndpointClient bio2rdf = SparqlEndpointClient.BIO2RDF;
 
-    List<String> drugIdentifiers = getIdentifiersFromInput(input);
-    for (String drugIdentifier : drugIdentifiers) {
-      try {
-        System.out.println("Processing " + drugIdentifier);
-        String output = Pipeline.create()
-            .pipe(s -> bio2rdf.evaluatePreparedQuery(s, drugIdentifier))
-            .pipe(RdfToSchema::transform)
-            .pipe(SchemaToHtml::transform)
-            .run(query);
-        writeDocument(toHtmlFile(drugIdentifier), output);
-      } catch (Exception e) {
-        System.err.println("Failed " + drugIdentifier);
-      }
+    try {
+      System.out.println("Processing " + drugIdentifier);
+      String output = Pipeline.create()
+          .pipe(s -> bio2rdf.evaluatePreparedQuery(s, drugIdentifier))
+          .pipe(RdfToSchema::transform)
+          .pipe(SchemaToHtml::transform)
+          .run(query);
+      writeDocument(output);
+      System.out.println("Done.");
+    } catch (Exception e) {
+      System.err.println("Failed " + drugIdentifier);
     }
   }
 
-  private static List<String> getIdentifiersFromInput(String input) {
-    return Arrays.stream(input.split(","))
-        .map(String::trim)
-        .collect(Collectors.toList());
-  }
-
-  private static void writeDocument(String path, String content) {
+  private static void writeDocument(String content) {
     try {
-      Files.write(Paths.get(path), content.getBytes());
+      Files.write(Paths.get("output.html"), content.getBytes());
     } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
-  }
-
-  private static String toHtmlFile(String graphIri) {
-    try {
-      return URLEncoder.encode(graphIri, "UTF-8") + ".html";
-    } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
   }
