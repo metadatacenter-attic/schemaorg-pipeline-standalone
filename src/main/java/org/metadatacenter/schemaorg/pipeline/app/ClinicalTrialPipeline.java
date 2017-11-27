@@ -1,15 +1,11 @@
 package org.metadatacenter.schemaorg.pipeline.app;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.metadatacenter.schemaorg.pipeline.Pipeline;
 import org.metadatacenter.schemaorg.pipeline.operation.embed.SchemaToHtml;
 import org.metadatacenter.schemaorg.pipeline.operation.extract.XsltTransformer;
@@ -25,29 +21,20 @@ public class ClinicalTrialPipeline {
    */
   public static void main(String[] args) {
     
-    String input = args[0];
+    String inputFileLocation = args[0];
     
     String stylesheet = MapNodeTranslator.translate(new XsltTranslatorHandler(), CLINICAL_TRIALS_MAPPING);
     
     XsltTransformer transformer = XsltTransformer.newTransformer(stylesheet);
     
-    List<String> fileLocations = getFileLocationsFromInput(input);
-    for (String fileLocation : fileLocations) {
-      fileLocation = fileLocation.trim();
-      System.out.println("Processing " + fileLocation);
-      String output = Pipeline.create()
-          .pipe(transformer::transform)
-          .pipe(XmlToSchema::transform)
-          .pipe(SchemaToHtml::transform)
-          .run(readDocument(fileLocation));
-      writeDocument(toHtmlFile("output", fileLocation), output);
-    }
-  }
-
-  private static List<String> getFileLocationsFromInput(String input) {
-    return Arrays.stream(input.split(","))
-        .map(String::trim)
-        .collect(Collectors.toList());
+    System.out.println("Processing " + inputFileLocation);
+    String output = Pipeline.create()
+        .pipe(transformer::transform)
+        .pipe(XmlToSchema::transform)
+        .pipe(SchemaToHtml::transform)
+        .run(readDocument(inputFileLocation));
+    writeDocument(output);
+    System.out.println("Done.");
   }
 
   private static String readDocument(String path) {
@@ -64,27 +51,12 @@ public class ClinicalTrialPipeline {
     }
   }
 
-  private static void writeDocument(String path, String content) {
+  private static void writeDocument(String content) {
     try {
-      Files.write(Paths.get(path), content.getBytes());
+      Files.write(Paths.get("output.html"), content.getBytes());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  public static String toHtmlFile(String parentDir, String path) {
-    final File file = new File(path);
-    String fileName = file.getName().substring(0, file.getName().lastIndexOf("."));
-    return String.format("%s/%s.html", parentDir, fileName);
-  }
-
-  public static String getFileExtension(File file) {
-    String fileExtension = "";
-    String fileName = file.getName();
-    if (fileName.contains(".") && fileName.lastIndexOf(".") != 0) {
-      fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1);
-    }
-    return fileExtension;
   }
 
   private static final String CLINICAL_TRIALS_MAPPING =
