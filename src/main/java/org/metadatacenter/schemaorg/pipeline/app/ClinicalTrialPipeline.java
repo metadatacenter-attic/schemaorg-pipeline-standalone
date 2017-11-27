@@ -11,12 +11,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.metadatacenter.schemaorg.pipeline.Pipeline;
-import org.metadatacenter.schemaorg.pipeline.experimental.BioPortalRecommender;
-import org.metadatacenter.schemaorg.pipeline.experimental.DBpediaLookup;
-import org.metadatacenter.schemaorg.pipeline.experimental.IdExpander;
-import org.metadatacenter.schemaorg.pipeline.experimental.IdentifiersExpander;
-import org.metadatacenter.schemaorg.pipeline.experimental.SchemaEnrichment;
-import org.metadatacenter.schemaorg.pipeline.experimental.TermLookup;
 import org.metadatacenter.schemaorg.pipeline.operation.embed.SchemaToHtml;
 import org.metadatacenter.schemaorg.pipeline.operation.extract.XsltTransformer;
 import org.metadatacenter.schemaorg.pipeline.operation.transform.XmlToSchema;
@@ -37,10 +31,6 @@ public class ClinicalTrialPipeline {
     
     XsltTransformer transformer = XsltTransformer.newTransformer(stylesheet);
     
-    TermLookup bioPortalRecommender = new BioPortalRecommender();
-    TermLookup dbpediaLookup = new DBpediaLookup();
-    IdExpander identifiersExpander = new IdentifiersExpander();
-    
     List<String> fileLocations = getFileLocationsFromInput(input);
     for (String fileLocation : fileLocations) {
       fileLocation = fileLocation.trim();
@@ -48,9 +38,6 @@ public class ClinicalTrialPipeline {
       String output = Pipeline.create()
           .pipe(transformer::transform)
           .pipe(XmlToSchema::transform)
-          .pipe(s -> SchemaEnrichment.fillOutIdFromObjectIdentifier(s, identifiersExpander))
-          .pipe(s -> SchemaEnrichment.fillOutIdFromObjectCodeValue(s, bioPortalRecommender))
-          .pipe(s -> SchemaEnrichment.fillOutIdFromObjectName(s, dbpediaLookup))
           .pipe(SchemaToHtml::transform)
           .run(readDocument(fileLocation));
       writeDocument(toHtmlFile("output", fileLocation), output);
