@@ -65,7 +65,7 @@ public class DrugBankPipeline {
       "nonProprietaryName:   /db:synonym/dcterms:title\n" + 
       "clinicalPharmacology: /db:pharmacodynamics/dcterms:description\n" + 
       "drugClass:            /db:category/dcterms:title\n" + 
-      "drugCost:             /db:product\n" + 
+      "cost:                 /db:product\n" + 
       "   @type:             'DrugCost'\n" + 
       "   costPerUnit:       /db:price\n" + 
       "   costCurrency:      'USD'\n" + 
