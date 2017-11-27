@@ -101,8 +101,8 @@ public class ClinicalTrialPipeline {
   }
 
   private static final String CLINICAL_TRIALS_MAPPING =
-      "@type:                       MedicalTrial\n" + 
-      "additionalType:              clinicaltrials\n" +
+      "@type:                       'MedicalTrial'\n" + 
+      "additionalType:              'clinicaltrials'\n" +
       "name:                        /clinical_study/official_title\n" + 
       "alternateName:               /clinical_study/brief_title\n" + 
       "alternateName:               /clinical_study/acronym\n" +
@@ -114,45 +114,45 @@ public class ClinicalTrialPipeline {
       "disambiguatingDescription:   /clinical_study/brief_summary/textblock\n" +
       "studySubject:                /clinical_study/condition\n" +
       "code:                        /clinical_study/keyword\n" +
-      "    @type:                   MedicalCode\n" +
+      "    @type:                   'MedicalCode'\n" +
       "    codeValue:               /.\n" +
       "phase:                       /clinical_study/phase\n" +
       "trialDesign:                 /clinical_study/study_design_info/intervention_model\n" +
       "population:                  /clinical_study/eligibility/criteria/textblock\n" +
       "sponsor:                     /clinical_study/sponsors/lead_sponsor\n" + 
-      "    @type:                   Organization\n" + 
+      "    @type:                   'Organization'\n" + 
       "    name:                    /agency\n" + 
-      "    additionalType:          Lead Sponsor\n" + 
+      "    additionalType:          'Lead Sponsor'\n" + 
       "sponsor:                     /clinical_study/sponsors/collaborator\n" + 
-      "    @type:                   Organization\n" + 
+      "    @type:                   'Organization'\n" + 
       "    name:                    /agency\n" + 
-      "    additionalType:          Collaborator\n" + 
+      "    additionalType:          'Collaborator'\n" + 
       "studyLocation:               /clinical_study/location/facility\n" + 
-      "    @type:                   AdministrativeArea\n" + 
+      "    @type:                   'AdministrativeArea'\n" + 
       "    name:                    /name\n" +
-      "    additionalType:          Facility\n" +
+      "    additionalType:          'Facility'\n" +
       "    address:                 /address\n" +
-      "        @type:               PostalAddress\n" +
+      "        @type:               'PostalAddress'\n" +
       "        addressLocality:     /city\n" + 
       "        addressRegion:       /state\n" + 
       "        postalCode:          /zip\n" + 
       "        addressCountry:      /country\n" +
       "studyLocation:               /clinical_study/location_countries\n" +
-      "    @type:                   AdministrativeArea\n" +
+      "    @type:                   'AdministrativeArea'\n" +
       "    name:                    /country\n" +
-      "    additionalType:          Country Location\n" +
+      "    additionalType:          'Country Location'\n" +
       "subjectOf:                   /clinical_study/references\n" +
-      "    @type:                   CreativeWork\n" +
-      "    additionalType:          pubmed\n" +
+      "    @type:                   'CreativeWork'\n" +
+      "    additionalType:          'pubmed'\n" +
       "    identifier:              /PMID\n" +
       "    alternateName:           /citation\n" +
       "subjectOf:                   /clinical_study/results_reference\n" +
-      "    @type:                   CreativeWork\n" +
-      "    additionalType:          pubmed\n" +
+      "    @type:                   'CreativeWork'\n" +
+      "    additionalType:          'pubmed'\n" +
       "    identifier:              /PMID\n" +
       "    alternateName:           /citation\n" +
       "subjectOf:                   /clinical_study/link\n" +
-      "    @type:                   WebPage\n" +
+      "    @type:                   'WebPage'\n" +
       "    url:                     /url\n" +
       "    description:             /description";
 }
