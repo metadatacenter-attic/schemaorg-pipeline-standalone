@@ -71,7 +71,9 @@ public class DrugBankPipeline {
 
   private static final String DRUGBANK_MAPPING =
       "@prefix:              ('schema', 'http://schema.org/')\n" + 
-      "@prefix:              ('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')\n" + 
+      "@prefix:              ('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')\n" +
+      "@prefix:              ('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')\n" + 
+      "@prefix:              ('dcterms', 'http://purl.org/dc/terms/')\n" + 
       "@prefix:              ('db', 'http://bio2rdf.org/drugbank_vocabulary:')\n" + 
       "@prefix:              ('bio2rdf', 'http://bio2rdf.org/bio2rdf_vocabulary:')\n" + 
       "@type:                ('Drug', 'db:Drug')\n" + 
@@ -84,24 +86,21 @@ public class DrugBankPipeline {
       "nonProprietaryName:   /db:synonym/dcterms:title\n" + 
       "clinicalPharmacology: /db:pharmacodynamics/dcterms:description\n" + 
       "drugClass:            /db:category/dcterms:title\n" + 
-      "cost:                 /db:product\n" + 
-      "   @type:             DrugCost\n" + 
+      "drugCost:             /db:product\n" + 
+      "   @type:             'DrugCost'\n" + 
       "   costPerUnit:       /db:price\n" + 
-      "   costCurrency:      USD\n" + 
+      "   costCurrency:      'USD'\n" + 
       "   drugUnit:          /dcterms:title\n" +
       "availableStrength:    /db:dosage\n" + 
-      "   @type:             DrugStrength\n" + 
+      "   @type:             'DrugStrength'\n" + 
       "   description:       /dcterms:title\n" + 
       "administrationRoute:  /db:dosage/db:route/dcterms:title\n" + 
       "administrationForm:   /db:dosage/db:form/dcterms:title\n" + 
       "mechanismOfAction:    /db:mechanism-of-action/dcterms:description\n" + 
       "interactingDrug:      /db:ddi-interactor-in/dcterms:title\n" + 
       "foodWarning:          /db:food-interaction/rdf:value\n" + 
-      "availableStrength:    /db:dosage\n" + 
-      "   @type:             DrugStrength\n" + 
-      "   description:       /dcterms:title\n" + 
       "legalStatus:          /db:group/bio2rdf:identifier\n" + 
       "manufacturer:         /db:manufacturer\n" + 
-      "   @type:             Organization\n" + 
+      "   @type:             'Organization'\n" + 
       "   name:              /rdf:value";
 }
