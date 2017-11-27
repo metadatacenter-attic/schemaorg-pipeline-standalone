@@ -21,7 +21,7 @@ public class ClinicalTrialPipeline {
 
   /*
    * Example use:
-   * $ java ClinicalTrialPipeline "http://bio2rdf.org/drugbank:DB00123"
+   * $ java ClinicalTrialPipeline "src/test/resources/clinicaltrials.xml"
    */
   public static void main(String[] args) {
     
