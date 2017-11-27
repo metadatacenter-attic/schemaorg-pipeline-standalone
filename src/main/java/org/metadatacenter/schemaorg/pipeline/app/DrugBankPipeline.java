@@ -8,13 +8,13 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.metadatacenter.schemaorg.pipeline.api.Pipeline;
-import org.metadatacenter.schemaorg.pipeline.embed.SchemaToHtml;
-import org.metadatacenter.schemaorg.pipeline.extract.SparqlEndpointClient;
-import org.metadatacenter.schemaorg.pipeline.mapping.MapNodeTranslator;
-import org.metadatacenter.schemaorg.pipeline.mapping.TranslatorHandler;
-import org.metadatacenter.schemaorg.pipeline.mapping.translator.SparqlConstructTranslatorHandler;
-import org.metadatacenter.schemaorg.pipeline.transform.RdfToSchema;
+import org.metadatacenter.schemaorg.pipeline.Pipeline;
+import org.metadatacenter.schemaorg.pipeline.operation.embed.SchemaToHtml;
+import org.metadatacenter.schemaorg.pipeline.operation.extract.SparqlEndpointClient;
+import org.metadatacenter.schemaorg.pipeline.operation.transform.RdfToSchema;
+import org.metadatacenter.schemaorg.pipeline.operation.translate.MapNodeTranslator;
+import org.metadatacenter.schemaorg.pipeline.operation.translate.SparqlConstructTranslatorHandler;
+import org.metadatacenter.schemaorg.pipeline.operation.translate.TranslatorHandler;
 
 public class DrugBankPipeline {
 
