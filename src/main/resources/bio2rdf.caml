@@ -1,0 +1,33 @@
+@prefix:              ('schema', 'http://schema.org/')
+@prefix:              ('rdf', 'http://www.w3.org/1999/02/22-rdf-syntax-ns#')
+@prefix:              ('rdfs', 'http://www.w3.org/2000/01/rdf-schema#')
+@prefix:              ('dcterms', 'http://purl.org/dc/terms/')
+@prefix:              ('db', 'http://bio2rdf.org/drugbank_vocabulary:')
+@prefix:              ('bio2rdf', 'http://bio2rdf.org/bio2rdf_vocabulary:')
+@type:                ('Drug', 'db:Drug')
+name:                 /dcterms:title
+description:          /dcterms:description
+identifier:           /dcterms:identifier
+url:                  /bio2rdf:uri
+sameAs:               /rdfs:seeAlso
+proprietaryName:      /db:brand/dcterms:title
+nonProprietaryName:   /db:synonym/dcterms:title
+clinicalPharmacology: /db:pharmacodynamics/dcterms:description
+drugClass:            /db:category/dcterms:title
+cost:                 /db:product
+   @type:             'DrugCost'
+   costPerUnit:       /db:price
+   costCurrency:      'USD'
+   drugUnit:          /dcterms:title
+availableStrength:    /db:dosage
+   @type:             'DrugStrength'
+   description:       /dcterms:title
+administrationRoute:  /db:dosage/db:route/dcterms:title
+administrationForm:   /db:dosage/db:form/dcterms:title
+mechanismOfAction:    /db:mechanism-of-action/dcterms:description
+interactingDrug:      /db:ddi-interactor-in/dcterms:title
+foodWarning:          /db:food-interaction/rdf:value
+legalStatus:          /db:group/bio2rdf:identifier
+manufacturer:         /db:manufacturer
+   @type:             'Organization'
+   name:              /rdf:value
