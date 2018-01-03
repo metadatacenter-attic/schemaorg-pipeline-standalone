@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.regex.Matcher;
@@ -20,6 +21,14 @@ public class FileUtils {
         result.write(buffer, 0, length);
       }
       return result.toString("UTF-8");
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public static void writeDocument(String content, Path outputPath) {
+    try {
+      Files.write(outputPath, content.getBytes());
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

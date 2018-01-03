@@ -66,15 +66,7 @@ public class XmlPipeline {
         .pipe(SchemaToHtml::transform)
         .run(input);
     Path outputPath = FileUtils.renameFileExtension(inputPath, "html");
-    writeDocument(output, outputPath);
+    FileUtils.writeDocument(output, outputPath);
     counter++;
-  }
-
-  private static void writeDocument(String content, Path outputPath) {
-    try {
-      Files.write(outputPath, content.getBytes());
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 }
