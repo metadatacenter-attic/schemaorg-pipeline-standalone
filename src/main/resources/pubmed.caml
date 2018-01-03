@@ -1,0 +1,32 @@
+@type:               'ScholarlyArticle'
+additionalType:      /PubmedArticle/MedlineCitation/Article/PublicationTypeList/PublicationType
+identifier:          /PubmedArticle/MedlineCitation/PMID
+name:                /PubmedArticle/MedlineCitation/Article/ArticleTitle
+description:         /PubmedArticle/MedlineCitation/Article/Abstract/AbstractText
+author:              /PubmedArticle/MedlineCitation/Article/AuthorList/Author
+   @type:            'Person'
+   identifier:       /Identifier
+   givenName:        /ForeName
+   lastName:         /LastName
+   affiliation:      /AffiliationInfo
+      @type:         'Organization'
+      description:   /Affiliation
+isPartOf:            /PubmedArticle/MedlineCitation/Article/Journal
+   @type:            'Periodical'
+   name:             /Title
+   alternateName:    /ISOAbbreviation
+   issn:             /ISSN
+isPartOf:            /PubmedArticle/MedlineCitation/Article/Journal/JournalIssue
+   @type:            'PublicationIssue'
+   issueNumber:      /Issue
+isPartOf:            /PubmedArticle/MedlineCitation/Article/Journal/JournalIssue
+   @type:            'PublicationVolume'
+   volumeNumber:     /Volume
+funder:              /PubmedArticle/MedlineCitation/Article/GrantList/Grant
+   @type:            'Organization'
+   name:             /Agency
+datePublished:       /PubmedArticle/MedlineCitation/Article/Journal/JournalIssue/PubDate/Year
+pagination:          /PubmedArticle/MedlineCitation/Article/Pagination/MedlinePgn
+inLanguage:          /PubmedArticle/MedlineCitation/Article/Language
+keywords:            /PubmedArticle/MedlineCitation/KeywordList/Keyword
+sameAs:              /PubmedArticle/MedlineCitation/Article/ELocationID

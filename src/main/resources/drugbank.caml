@@ -1,0 +1,38 @@
+@type:                'Drug'
+additionalType:       /drug/categories/category/category
+name:                 /drug/name
+alternateName:        /drug/synonyms/synonym
+description:          /drug/description
+identifier:           /drug/drugbank-id
+identifier:           /drug/cas-number
+code:                 /drug/external-identifiers/external-identifier
+   @type:             'MedicalCode'
+   codeValue:         /identifier
+   codeSystem:        /resource
+sameAs:               /drug/external-links/external-link/url
+proprietaryName:      /drug/international-brands/international-brand/name
+clinicalPharmacology: /drug/pharmacodynamics
+clinicalPharmacology: /drug/absorption
+clinicalPharmacology: /drug/route-of-elimination
+drugClass:            /drug/classification/class
+cost:                 /drug/prices/price
+   @type:             'DrugCost'
+   description:       /description
+   costPerUnit:       /cost
+   costCurrency:      'USD'
+   drugUnit:          /unit
+administrationRoute:  /drug/dosages/dosage/route
+administrationForm:   /drug/dosages/dosage/form
+mechanismOfAction:    /drug/mechanism-of-action
+interactingDrug:      /drug/drug-interactions/drug-interaction
+   @type:             'Drug'
+   identifier:        /drugbank-id
+   name:              /name
+   description:       /description
+foodWarning:          /drug/food-interactions/food-interaction
+overdose:             /drug/toxicity
+legalStatus:          /drug/groups/group
+labelDetails:         /drug/fda-label
+manufacturer:         /drug/manufacturers
+   @type:             'Organization'
+   name:              /manufacturer

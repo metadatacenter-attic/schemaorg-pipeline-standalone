@@ -1,0 +1,55 @@
+@type:                       'MedicalTrial'
+additionalType:              'clinicaltrials'
+name:                        /clinical_study/official_title
+alternateName:               /clinical_study/brief_title
+alternateName:               /clinical_study/acronym
+identifier:                  /clinical_study/id_info/org_study_id
+identifier:                  /clinical_study/id_info/nct_id
+identifier:                  /clinical_study/id_info/secondary_id
+status:                      /clinical_study/overall_status
+description:                 /clinical_study/detailed_description/textblock
+disambiguatingDescription:   /clinical_study/brief_summary/textblock
+studySubject:                /clinical_study/condition
+code:                        /clinical_study/condition_browse
+    @type:                   'MedicalCode'
+    codeValue:               /mesh_term
+    codingSystem:            'MeSH'
+phase:                       /clinical_study/phase
+trialDesign:                 /clinical_study/study_design_info/intervention_model
+population:                  /clinical_study/eligibility/criteria/textblock
+sponsor:                     /clinical_study/sponsors/lead_sponsor
+    @type:                   'Organization'
+    name:                    /agency
+    additionalType:          'Lead Sponsor'
+sponsor:                     /clinical_study/sponsors/collaborator
+    @type:                   'Organization'
+    name:                    /agency
+    additionalType:          'Collaborator'
+studyLocation:               /clinical_study/location/facility
+    @type:                   'AdministrativeArea'
+    name:                    /name
+    additionalType:          'Facility'
+    address:                 /address
+        @type:               'PostalAddress'
+        addressLocality:     /city
+        addressRegion:       /state
+        postalCode:          /zip
+        addressCountry:      /country
+studyLocation:               /clinical_study/location_countries
+    @type:                   'AdministrativeArea'
+    name:                    /country
+    additionalType:          'Country Location'
+subjectOf:                   /clinical_study/references
+    @type:                   'CreativeWork'
+    additionalType:          'pubmed'
+    identifier:              /PMID
+    alternateName:           /citation
+subjectOf:                   /clinical_study/results_reference
+    @type:                   'CreativeWork'
+    additionalType:          'pubmed'
+    identifier:              /PMID
+    alternateName:           /citation
+subjectOf:                   /clinical_study/link
+    @type:                   'WebPage'
+    url:                     /url
+    description:             /description
