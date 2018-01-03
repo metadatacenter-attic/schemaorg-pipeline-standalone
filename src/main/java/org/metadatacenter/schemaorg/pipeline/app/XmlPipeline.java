@@ -1,9 +1,6 @@
 package org.metadatacenter.schemaorg.pipeline.app;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,7 +30,7 @@ public class XmlPipeline {
     String dataArgument = args[1];
     Path dataSourcePath = Paths.get(dataArgument);
     
-    String mappingString = readDocument(mappingPath);
+    String mappingString = FileUtils.readDocument(mappingPath);
     String stylesheet = MapNodeTranslator.translate(new XsltTranslatorHandler(), mappingString);
     XsltTransformer transformer = XsltTransformer.newTransformer(stylesheet);
     
@@ -62,28 +59,15 @@ public class XmlPipeline {
 
   private static void processInputFile(Path inputPath, final XsltTransformer transformer) {
     System.out.println("Processing " + inputPath.getFileName());
+    String input = FileUtils.readDocument(inputPath);
     String output = Pipeline.create()
         .pipe(transformer::transform)
         .pipe(XmlToSchema::transform)
         .pipe(SchemaToHtml::transform)
-        .run(readDocument(inputPath));
+        .run(input);
     Path outputPath = FileUtils.renameFileExtension(inputPath, "html");
     writeDocument(output, outputPath);
     counter++;
-  }
-
-  private static String readDocument(Path path) {
-    try (InputStream in = new FileInputStream(path.toFile())) {
-      ByteArrayOutputStream result = new ByteArrayOutputStream();
-      byte[] buffer = new byte[1024];
-      int length;
-      while ((length = in.read(buffer)) != -1) {
-        result.write(buffer, 0, length);
-      }
-      return result.toString("UTF-8");
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   private static void writeDocument(String content, Path outputPath) {
