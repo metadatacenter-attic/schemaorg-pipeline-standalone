@@ -31,7 +31,7 @@ studyLocation:               /clinical_study/location/facility
 studyLocation:               /clinical_study/location_countries
     @type:                   'AdministrativeArea'
     name:                    /country
-subjectOf:                   /clinical_study/references
+subjectOf:                   /clinical_study/reference
     @type:                   'CreativeWork'
     identifier:              /PMID
     alternateName:           /citation
