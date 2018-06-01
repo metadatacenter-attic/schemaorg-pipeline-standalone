@@ -7,9 +7,9 @@ alternateName:               /clinical_study/brief_title
 alternateName:               /clinical_study/acronym
 disambiguatingDescription:   /clinical_study/brief_summary/textblock
 status:                      /clinical_study/overall_status
-studySubject:                /clinical_study/condition
-    @type:                   'MedicalEntity'
-    code:                    /.
+code:                        /clinical_study/condition_browse/mesh_term
+    @type:                   'MedicalCode'
+    codeValue:               /.
 phase:                       /clinical_study/phase
 trialDesign:                 /clinical_study/study_design_info/intervention_model
 population:                  /clinical_study/eligibility/criteria/textblock
